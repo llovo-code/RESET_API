@@ -12,7 +12,7 @@ const dbConnection = async() => {
         console.log(`database online`);
     } catch (error) {
         console.log(error)
-        throw new Error('Fail connection to database')
+        throw new Error('Fail connection to database \n\n\n');
     }
 }
 
