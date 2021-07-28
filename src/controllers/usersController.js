@@ -1,6 +1,6 @@
 const { response, request } = require('express')
     //importanto del Schema o modelo de base de datos 
-let { User } = require('../models/usersModel');
+const { User } = require('../models/usersModel');
 //importando paquetes para encriptar el password
 const bcrypt = require('bcryptjs');
 
@@ -66,16 +66,18 @@ const UsersPUT = async(req = request, res = response) => {
 const UsersDELETE = async(req = request, res = response) => {
 
     const { id } = req.params;
+    const userAuthenciate = req.user
 
     //borrado fisicamente
-
     //const user = await User.findByIdAndDelete(id);
 
     const user = await User.findByIdAndUpdate(id, { state: false });
     res.json({
         msg: 'DELETE API - controller',
-        user
-    })
+        user,
+        Authenticated_User: userAuthenciate
+
+    });
 }
 
 

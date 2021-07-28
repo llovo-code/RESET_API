@@ -10,6 +10,7 @@ class Server {
         this.app = express();
         this.port = process.env.PORT;
         this.UsersRoutePath = '/api/users';
+        this.AuthPath = '/api/auth'
 
         //connection to database
         this.ConnectionDB();
@@ -38,7 +39,13 @@ class Server {
 
     routes() {
 
-        this.app.use(this.UsersRoutePath, require('../routes/users'))
+
+
+        this.app.use(this.AuthPath, require('../routes/auth'));
+        this.app.use(this.UsersRoutePath, require('../routes/users'));
+        this.app.get('*', (req, res) => {
+            res.sendFile(path.join(__dirname, '../public/PageNotFound.html'));
+        });
     }
 
     listen() {
