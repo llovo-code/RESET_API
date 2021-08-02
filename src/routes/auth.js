@@ -5,7 +5,7 @@ const { check } = require('express-validator');
 const router = Router();
 
 
-const { login } = require('../controllers/loginController');
+const { login, googleSignIn } = require('../controllers/loginController');
 const { validarCampos } = require('../middlewares');
 
 
@@ -14,7 +14,7 @@ router.get('/', (req, res) => {
     res.json({
         msg: "On Auth"
     })
-})
+});
 
 router.post('/login', [
     check('mail', 'this mail is obligatory').isEmail(),
@@ -22,5 +22,13 @@ router.post('/login', [
     validarCampos
 ], login);
 
+
+router.post('/google', [
+    check('id_token', 'Se requiere el id token de google').not().isEmpty(),
+    validarCampos
+], googleSignIn);
+
+
+//router.post('/goo', googleSignIn);
 
 module.exports = router;
