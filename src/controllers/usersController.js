@@ -1,6 +1,8 @@
 const { response, request } = require('express')
-    //importanto del Schema o modelo de base de datos 
-const { User } = require('../models/usersModel');
+
+
+//importanto del Schema o modelo de base de datos 
+const User = require('../models/usersModel');
 //importando paquetes para encriptar el password
 const bcrypt = require('bcryptjs');
 
@@ -11,7 +13,6 @@ const UsersGET = async(req = request, res = response) => {
     const { limit = 5, from = 0 } = req.query;
 
     //const users = await User.find({ state: true }).skip(Number(from)).limit(Number(limit));
-
     //const total = await User.countDocuments({ state: true });
 
     const [total, users] = await Promise.all([

@@ -9,8 +9,16 @@ class Server {
         //inits
         this.app = express();
         this.port = process.env.PORT;
-        this.UsersRoutePath = '/api/users';
-        this.AuthPath = '/api/auth'
+
+        this.paths = {
+            auth: '/api/auth',
+            users: '/api/users',
+            category: '/api/categorias',
+            product: '/api/productos',
+            search: '/api/search'
+        };
+        // this.UsersRoutePath = '/api/users';
+        //this.AuthPath = '/api/auth'
 
         //connection to database
         this.ConnectionDB();
@@ -41,8 +49,11 @@ class Server {
 
 
 
-        this.app.use(this.AuthPath, require('../routes/auth'));
-        this.app.use(this.UsersRoutePath, require('../routes/users'));
+        this.app.use(this.paths.auth, require('../routes/auth'));
+        this.app.use(this.paths.users, require('../routes/users'));
+        this.app.use(this.paths.category, require('../routes/categorie'));
+        this.app.use(this.paths.product, require('../routes/product'));
+        this.app.use(this.paths.search, require('../routes/search'))
         this.app.get('*', (req, res) => {
             res.sendFile(path.join(__dirname, '../public/PageNotFound.html'));
         });
