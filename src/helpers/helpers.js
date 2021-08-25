@@ -24,8 +24,6 @@ const dbValidator_UserById_Exists = async(id = '') => {
     }
 }
 
-
-
 //helpers para categorie 
 const categorieExist = async(categorie) => {
 
@@ -36,7 +34,6 @@ const categorieExist = async(categorie) => {
     }
 }
 
-
 //helper by product
 const productExist = async(id) => {
     const productdb = Product.findById(id)
@@ -46,11 +43,23 @@ const productExist = async(id) => {
 }
 
 
+const collectionAllowed = async(collection = '', collectionsAllowed = []) => {
+
+    const include = collectionsAllowed.includes(collection);
+    //console.log(`inside to collection`);
+    if (!include) {
+        throw new Error(`collection not found with id ${collection}`);
+    }
+    return true;
+}
+
+
 
 module.exports = {
     dbValidatorRole,
     dbValidator_EmailExist,
     dbValidator_UserById_Exists,
     categorieExist,
-    productExist
+    productExist,
+    collectionAllowed
 };

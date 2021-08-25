@@ -1,7 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
-
+const fileUpload = require('express-fileupload');
 const { dbConnection } = require('../database/config')
 class Server {
 
@@ -15,7 +15,8 @@ class Server {
             users: '/api/users',
             category: '/api/categorias',
             product: '/api/productos',
-            search: '/api/search'
+            search: '/api/search',
+            uploads: '/api/uploads'
         };
         // this.UsersRoutePath = '/api/users';
         //this.AuthPath = '/api/auth'
@@ -41,8 +42,14 @@ class Server {
         this.app.use(cors());
 
         //Lectura y Parseo de el body
-
         this.app.use(express.json());
+
+        //file uploads
+        this.app.use(fileUpload({
+            useTempFiles: true,
+            tempFileDir: '/tmp/',
+            createParentPath: true
+        }));
     }
 
     routes() {
@@ -54,6 +61,8 @@ class Server {
         this.app.use(this.paths.category, require('../routes/categorie'));
         this.app.use(this.paths.product, require('../routes/product'));
         this.app.use(this.paths.search, require('../routes/search'))
+        this.app.use(this.paths.uploads, require('../routes/uploadFile'));
+
         this.app.get('*', (req, res) => {
             res.sendFile(path.join(__dirname, '../public/PageNotFound.html'));
         });
